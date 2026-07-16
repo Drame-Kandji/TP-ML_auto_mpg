@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auto MPG Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'predictor/styles.css' %}">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero-card">
+      <div class="hero-copy">
+        <p class="eyebrow">Modèle TensorFlow + Django</p>
+        <h1>Prédisez la consommation MPG d’une voiture en quelques secondes.</h1>
+        <p class="lede">
+          Renseignez les caractéristiques du véhicule, lancez la prédiction et obtenez une estimation claire et rapide.
+        </p>
+        <p class="hint">Pour l'année, choisis une date dans l'année souhaitée. Le modèle n'utilise que l'année.</p>
+
+        {% if prediction is not None %}
+          <div class="result-card">
+            <span class="result-label">Résultat</span>
+            <strong>{{ prediction|floatformat:2 }} MPG</strong>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-card">
+        <h2>Formulaire de prédiction</h2>
+        <form method="post" class="prediction-form" id="prediction-form">
+          {% csrf_token %}
+          <div class="field-grid">
+            {% for field in form %}
+              <label class="field">
+                <span>{{ field.label }}</span>
+                {{ field }}
+                {% if field.help_text %}
+                  <small class="hint">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                  <small class="error">{{ field.errors|striptags }}</small>
+                {% endif %}
+              </label>
+            {% endfor %}
+          </div>
+          <button type="submit" class="submit-btn" id="submit-btn">Lancer la prédiction</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Auto MPG Predictor &mdash; Projet réalisé avec <a href="https://www.tensorflow.org/" target="_blank" rel="noopener">TensorFlow</a> & <a href="https://www.djangoproject.com/" target="_blank" rel="noopener">Django</a> &mdash;
+      Données : <a href="http://archive.ics.uci.edu/ml/datasets/Auto+MPG" target="_blank" rel="noopener">UCI Machine Learning Repository</a>
+    </p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('prediction-form');
+    const btn = document.getElementById('submit-btn');
+
+    if (form && btn) {
+      form.addEventListener('submit', function () {
+        btn.disabled = true;
+        btn.classList.add('loading');
+      });
+    }
+
+    // Restore button state on page load (in case of back navigation)
+    window.addEventListener('pageshow', function () {
+      if (btn) {
+        btn.disabled = false;
+        btn.classList.remove('loading');
+      }
+    });
+  </script>
+</body>
+</html>
