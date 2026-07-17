@@ -54,8 +54,8 @@ AutoMPG-project/
 ### 1. Cloner le projet
 
 ```bash
-git clone <url-du-depot>
-cd AutoMPG-project
+git clone https://github.com/Drame-Kandji/TP-ML_auto_mpg
+cd TP-ML_auto_mpg
 ```
 
 ### 2. Créer un environnement virtuel (recommandé)
@@ -78,6 +78,7 @@ pip install -r requirements.txt
 ### 4. Lancer le serveur de développement
 
 ```bash
+python manage.py migrate
 python manage.py runserver
 ```
 
