@@ -1,17 +1,6 @@
-# === Auto MPG Predictor - Dépendances Python ===
-
-# Framework web
 Django>=5.0,<6.0
-
-# Deep Learning / Inférence
 tensorflow>=2.15,<3.0
-
-# Calculs numériques
-numpy>=1.24,<2.0
-
-# Manipulation des données (utilisé pour l'entraînement)
+numpy>=1.26
 pandas>=2.0,<3.0
-
-# Visualisation (utilisé pour l'entraînement)
-matplotlib>=3.7,<4.0
+matplotlib>=3.10,<4.0
 seaborn>=0.12,<1.0
